@@ -46,7 +46,7 @@ suspend fun createServerClientTest(
         ) {}
         clientBlock(client)
     } finally {
-        client?.close()
         server?.close()
+        client?.close()
     }
 }
