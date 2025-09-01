@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
     `maven-publish`
 
@@ -9,6 +11,8 @@ plugins {
 kotlin {
     jvm()
     js()
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs()
     sourceSets.commonMain.dependencies {
         implementation(kotlin("stdlib"))
         implementation(kotlin("reflect"))
