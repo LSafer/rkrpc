@@ -23,7 +23,7 @@ fun KrpcRoute.rkrpc(
     block: KrpcConfigBuilder.Client.() -> Unit,
 ): KrpcClient {
     // Transport Setup
-    val transport = RkrpcTransport(call)
+    val transport = RkrpcTransport(this)
 
     registerService<RkrpcService> {
         RkrpcServiceImpl(transport)
