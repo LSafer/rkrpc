@@ -1,4 +1,4 @@
-package net.lsafer.rkrpc.core.internal
+package net.lsafer.rkrpc.internal
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -7,7 +7,7 @@ import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.job
 import kotlinx.rpc.krpc.KrpcTransport
 import kotlinx.rpc.krpc.KrpcTransportMessage
-import net.lsafer.rkrpc.core.RkrpcInternalApi
+import net.lsafer.rkrpc.RkrpcInternalApi
 
 @RkrpcInternalApi
 class RkrpcTransport(coroutineScope: CoroutineScope) : KrpcTransport,

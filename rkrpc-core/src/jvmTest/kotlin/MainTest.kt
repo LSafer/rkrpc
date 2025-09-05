@@ -1,4 +1,4 @@
-package net.lsafer.rkrpc.core.test
+package net.lsafer.rkrpc.test
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,9 +12,8 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.rpc.krpc.serialization.json.json
 import kotlinx.rpc.registerService
 import kotlinx.rpc.withService
-import net.lsafer.rkrpc.core.client.rkrpc
-import net.lsafer.rkrpc.core.server.rkrpc
-import net.lsafer.rkrpc.core.test.util.createServerClientTest
+import net.lsafer.rkrpc.rkrpc
+import net.lsafer.rkrpc.test.util.createServerClientTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

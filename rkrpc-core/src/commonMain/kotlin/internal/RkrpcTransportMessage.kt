@@ -1,9 +1,9 @@
-package net.lsafer.rkrpc.core.internal
+package net.lsafer.rkrpc.internal
 
 import kotlinx.rpc.krpc.KrpcTransportMessage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import net.lsafer.rkrpc.core.RkrpcInternalApi
+import net.lsafer.rkrpc.RkrpcInternalApi
 
 @Serializable
 sealed interface RkrpcTransportMessage {

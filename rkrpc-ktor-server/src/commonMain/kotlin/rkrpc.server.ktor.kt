@@ -1,14 +1,14 @@
-package net.lsafer.rkrpc.ktor.server
+package net.lsafer.rkrpc.ktor
 
 import kotlinx.rpc.krpc.KrpcConfigBuilder
 import kotlinx.rpc.krpc.client.InitializedKrpcClient
 import kotlinx.rpc.krpc.client.KrpcClient
 import kotlinx.rpc.krpc.ktor.server.KrpcRoute
 import kotlinx.rpc.krpc.rpcClientConfig
-import net.lsafer.rkrpc.core.RkrpcInternalApi
-import net.lsafer.rkrpc.core.internal.RkrpcService
-import net.lsafer.rkrpc.core.internal.RkrpcTransport
-import net.lsafer.rkrpc.core.server.RkrpcServiceImpl
+import net.lsafer.rkrpc.RkrpcInternalApi
+import net.lsafer.rkrpc.internal.RkrpcService
+import net.lsafer.rkrpc.internal.RkrpcServiceImpl
+import net.lsafer.rkrpc.internal.RkrpcTransport
 
 /**
  * Initiate a reverse kRPC connection utilizing this kRPC connection.

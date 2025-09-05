@@ -1,4 +1,4 @@
-package net.lsafer.rkrpc.core.test
+package net.lsafer.rkrpc.test
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.rpc.annotations.Rpc

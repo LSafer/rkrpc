@@ -1,4 +1,4 @@
-package net.lsafer.rkrpc.core
+package net.lsafer.rkrpc
 
 import kotlin.RequiresOptIn.Level.WARNING
 

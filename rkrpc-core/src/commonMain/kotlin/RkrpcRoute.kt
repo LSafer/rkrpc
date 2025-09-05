@@ -1,4 +1,4 @@
-package net.lsafer.rkrpc.core.client
+package net.lsafer.rkrpc
 
 import kotlinx.rpc.RpcServer
 import kotlinx.rpc.annotations.Rpc
@@ -6,15 +6,17 @@ import kotlinx.rpc.krpc.KrpcConfigBuilder
 import kotlin.reflect.KClass
 
 class RkrpcRoute {
-    @PublishedApi
-    internal var configBuilder: KrpcConfigBuilder.Server.() -> Unit = {}
-    @PublishedApi
-    internal val registrations = mutableListOf<(RpcServer) -> Unit>()
+    @RkrpcInternalApi
+    var configBuilder: KrpcConfigBuilder.Server.() -> Unit = {}
+    @RkrpcInternalApi
+    val registrations = mutableListOf<(RpcServer) -> Unit>()
 
+    @OptIn(RkrpcInternalApi::class)
     fun rpcConfig(configBuilder: KrpcConfigBuilder.Server.() -> Unit) {
         this.configBuilder = configBuilder
     }
 
+    @OptIn(RkrpcInternalApi::class)
     fun <@Rpc Service : Any> registerService(
         serviceKClass: KClass<Service>,
         serviceFactory: () -> Service,

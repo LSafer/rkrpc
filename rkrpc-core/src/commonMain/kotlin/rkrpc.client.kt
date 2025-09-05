@@ -1,4 +1,4 @@
-package net.lsafer.rkrpc.core.client
+package net.lsafer.rkrpc
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.consumeEach
@@ -9,9 +9,8 @@ import kotlinx.rpc.krpc.client.KrpcClient
 import kotlinx.rpc.krpc.rpcServerConfig
 import kotlinx.rpc.krpc.server.KrpcServer
 import kotlinx.rpc.withService
-import net.lsafer.rkrpc.core.RkrpcInternalApi
-import net.lsafer.rkrpc.core.internal.RkrpcService
-import net.lsafer.rkrpc.core.internal.RkrpcTransport
+import net.lsafer.rkrpc.internal.RkrpcService
+import net.lsafer.rkrpc.internal.RkrpcTransport
 
 /**
  * Initiate a reverse kRPC connection utilizing this kRPC connection.

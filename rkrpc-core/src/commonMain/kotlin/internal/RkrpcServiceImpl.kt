@@ -1,11 +1,8 @@
-package net.lsafer.rkrpc.core.server
+package net.lsafer.rkrpc.internal
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.consumeAsFlow
-import net.lsafer.rkrpc.core.RkrpcInternalApi
-import net.lsafer.rkrpc.core.internal.RkrpcService
-import net.lsafer.rkrpc.core.internal.RkrpcTransport
-import net.lsafer.rkrpc.core.internal.RkrpcTransportMessage
+import net.lsafer.rkrpc.RkrpcInternalApi
 
 @RkrpcInternalApi
 class RkrpcServiceImpl(val transport: RkrpcTransport) : RkrpcService {

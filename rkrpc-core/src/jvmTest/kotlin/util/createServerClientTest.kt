@@ -1,4 +1,4 @@
-package net.lsafer.rkrpc.core.test.util
+package net.lsafer.rkrpc.test.util
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
