@@ -14,6 +14,7 @@ import net.lsafer.rkrpc.core.client.rkrpc
  * @param block configuration for the reverse kRPC server. (Can be different from original kRPC client)
  */
 @OptIn(RkrpcInternalApi::class)
+@Deprecated("This function is unstable and may block indefinitely.")
 suspend fun KtorRpcClient.rkrpc(
     block: RkrpcRoute.() -> Unit,
 ): KrpcServer {
