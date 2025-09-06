@@ -97,35 +97,22 @@ open class MainTest {
                 }
             },
             clientBlock = { client ->
-                println("-----a")
                 val client1 = client.newSubClient(scope) { serialization { json() } }
-                println("-----b")
                 val client2 = client.newSubClient(scope) { serialization { json() } }
-                println("-----c")
                 val client3 = client.newSubClient(scope) { serialization { json() } }
 
-                println("-----d")
                 val service1 = client1.withService<CounterService>()
-                println("-----e")
                 val service2 = client2.withService<CounterService>()
-                println("-----f")
                 val service3 = client3.withService<CounterService>()
 
-                println("-----g")
                 val i = service1.incrementGet()
-                println("-----h")
                 val j = service2.incrementGet()
-                println("-----i")
                 val k = service3.incrementGet()
 
-                println("-----j")
                 val l = service1.incrementGet()
-                println("-----k")
                 val m = service2.incrementGet()
-                println("-----l")
                 val n = service3.incrementGet()
 
-                println("-----m")
                 assertEquals(1, i)
                 assertEquals(1, j)
                 assertEquals(1, k)
