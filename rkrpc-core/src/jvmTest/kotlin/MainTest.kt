@@ -12,8 +12,10 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.rpc.krpc.serialization.json.json
 import kotlinx.rpc.registerService
 import kotlinx.rpc.withService
+import net.lsafer.rkrpc.configureSubClient
 import net.lsafer.rkrpc.rkrpc
 import net.lsafer.rkrpc.test.util.createServerClientTest
+import net.lsafer.rkrpc.newSubClient
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -67,6 +69,70 @@ open class MainTest {
                 assertEquals(listOf("Hello S", "Hello M", "Hello N"), helloList)
 
                 rServer.close()
+            },
+        )
+
+        scope.coroutineContext.job.join()
+    }
+
+    @Test
+    fun `simple factory and withScope usage`() = runTest {
+        val scope = CoroutineScope(coroutineContext + Dispatchers.IO + SupervisorJob())
+
+        createServerClientTest(
+            coroutineScope = scope,
+            serverBlock = {
+                configureSubClient(scope) {
+                    rpcConfig { serialization { json() } }
+                    registerService<CounterService> {
+                        object : CounterService {
+                            var counter = 0
+
+                            override suspend fun incrementGet(): Int {
+                                return ++counter
+                            }
+                        }
+                    }
+                }
+            },
+            clientBlock = { client ->
+                println("-----a")
+                val client1 = client.newSubClient(scope) { serialization { json() } }
+                println("-----b")
+                val client2 = client.newSubClient(scope) { serialization { json() } }
+                println("-----c")
+                val client3 = client.newSubClient(scope) { serialization { json() } }
+
+                println("-----d")
+                val service1 = client1.withService<CounterService>()
+                println("-----e")
+                val service2 = client2.withService<CounterService>()
+                println("-----f")
+                val service3 = client3.withService<CounterService>()
+
+                println("-----g")
+                val i = service1.incrementGet()
+                println("-----h")
+                val j = service2.incrementGet()
+                println("-----i")
+                val k = service3.incrementGet()
+
+                println("-----j")
+                val l = service1.incrementGet()
+                println("-----k")
+                val m = service2.incrementGet()
+                println("-----l")
+                val n = service3.incrementGet()
+
+                println("-----m")
+                assertEquals(1, i)
+                assertEquals(1, j)
+                assertEquals(1, k)
+                assertEquals(2, l)
+                assertEquals(2, m)
+                assertEquals(2, n)
+
+                client.close()
             },
         )
 

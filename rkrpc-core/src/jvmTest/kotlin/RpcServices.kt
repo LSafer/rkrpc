@@ -14,3 +14,8 @@ interface ClientNameService {
     fun flowName(): Flow<String>
     suspend fun getName(): String
 }
+
+@Rpc
+interface CounterService {
+    suspend fun incrementGet(): Int
+}
