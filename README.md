@@ -2,6 +2,8 @@
 
 Reverse kRPC with optional integration with ktor (aka. Client Services).
 
+> This library also includes support for sub clients! [read more](./FRPC.md)
+
 ### Usage
 
 To start lets define some services. One for client-to-server and one for server-to-client:
@@ -27,7 +29,7 @@ and register client-to-server services. (with Ktor as transport layer)
 ```kotlin
 // server
 fun KrpcRoute.configureKrpcServer() {
-    val rClient = rkrpc { serialization { json() } }
+    val rClient = reverseClient { serialization { json() } }
     val nameService = rClient.withService<ClientNameService>()
 
     registerService<HelloService> {
@@ -51,8 +53,8 @@ server-to-client services. (with Ktor as transport layer)
 
 ```kotlin
 // client
-suspend fun KtorRpcClient.configureKrpcReverseServer() {
-    rkrpc {
+suspend fun KtorRpcClient.configureKrpcReverseServer(scope: CoroutineScope) {
+    reverseServer(scope) {
         rpcConfig { serialization { json() } }
         registerService<ClientNameService> {
             object : ClientNameService {
