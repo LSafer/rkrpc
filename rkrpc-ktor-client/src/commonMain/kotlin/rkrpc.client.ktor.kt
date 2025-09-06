@@ -4,7 +4,7 @@ import kotlinx.rpc.krpc.ktor.client.KtorRpcClient
 import kotlinx.rpc.krpc.server.KrpcServer
 import net.lsafer.rkrpc.RkrpcInternalApi
 import net.lsafer.rkrpc.RkrpcRoute
-import net.lsafer.rkrpc.rkrpc
+import net.lsafer.rkrpc.reverseServer
 
 /**
  * Initiate a reverse kRPC connection utilizing this kRPC connection.
@@ -15,8 +15,8 @@ import net.lsafer.rkrpc.rkrpc
  */
 @OptIn(RkrpcInternalApi::class)
 @Deprecated("This function is unstable and may block indefinitely.")
-suspend fun KtorRpcClient.rkrpc(
+suspend fun KtorRpcClient.reverseServer(
     block: RkrpcRoute.() -> Unit,
 ): KrpcServer {
-    return rkrpc(webSocketSession.await(), block)
+    return reverseServer(webSocketSession.await(), block)
 }

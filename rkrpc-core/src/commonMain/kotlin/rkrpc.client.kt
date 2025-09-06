@@ -21,7 +21,7 @@ import net.lsafer.rkrpc.internal.RkrpcTransport
  * @param block configuration for the reverse kRPC server. (Can be different from original kRPC client)
  */
 @OptIn(RkrpcInternalApi::class)
-inline fun KrpcClient.rkrpc(
+inline fun KrpcClient.reverseServer(
     coroutineScope: CoroutineScope,
     block: RkrpcRoute.() -> Unit,
 ): KrpcServer {

@@ -19,7 +19,7 @@ import net.lsafer.rkrpc.internal.RkrpcTransport
  * @param block configuration for the reverse kRPC client. (Can be different from original kRPC server)
  */
 @OptIn(RkrpcInternalApi::class)
-fun KrpcRoute.rkrpc(
+fun KrpcRoute.reverseClient(
     block: KrpcConfigBuilder.Client.() -> Unit,
 ): KrpcClient {
     // Transport Setup

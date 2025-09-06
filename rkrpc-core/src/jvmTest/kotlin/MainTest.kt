@@ -13,7 +13,8 @@ import kotlinx.rpc.krpc.serialization.json.json
 import kotlinx.rpc.registerService
 import kotlinx.rpc.withService
 import net.lsafer.rkrpc.configureSubClient
-import net.lsafer.rkrpc.rkrpc
+import net.lsafer.rkrpc.reverseServer
+import net.lsafer.rkrpc.reverseClient
 import net.lsafer.rkrpc.test.util.createServerClientTest
 import net.lsafer.rkrpc.newSubClient
 import kotlin.test.Test
@@ -27,7 +28,7 @@ open class MainTest {
         createServerClientTest(
             coroutineScope = scope,
             serverBlock = {
-                val rClient = rkrpc(scope) { serialization { json() } }
+                val rClient = reverseClient(scope) { serialization { json() } }
                 val nameService = rClient.withService<ClientNameService>()
 
                 registerService<HelloService> {
@@ -45,7 +46,7 @@ open class MainTest {
                 }
             },
             clientBlock = { client ->
-                val rServer = client.rkrpc(scope) {
+                val rServer = client.reverseServer(scope) {
                     rpcConfig { serialization { json() } }
                     registerService<ClientNameService> {
                         object : ClientNameService {
