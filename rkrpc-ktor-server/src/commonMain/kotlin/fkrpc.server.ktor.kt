@@ -1,6 +1,5 @@
 package net.lsafer.rkrpc.ktor
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.rpc.krpc.ktor.server.KrpcRoute
 import kotlinx.rpc.krpc.rpcServerConfig
 import net.lsafer.rkrpc.RkrpcInternalApi
@@ -15,7 +14,6 @@ import net.lsafer.rkrpc.newSubClient
  */
 @OptIn(RkrpcInternalApi::class)
 fun KrpcRoute.configureSubClient(
-    coroutineScope: CoroutineScope,
     block: RkrpcRoute.() -> Unit,
 ) {
     registerService<FkrpcService> {
@@ -25,7 +23,7 @@ fun KrpcRoute.configureSubClient(
         val config = rpcServerConfig { route.configBuilder(this) }
 
         FkrpcServiceImpl(
-            coroutineScope = coroutineScope,
+            coroutineScope = this,
             config = config,
             registrations = route.registrations,
         )
