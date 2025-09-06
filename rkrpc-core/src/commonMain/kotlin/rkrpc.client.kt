@@ -40,7 +40,7 @@ inline fun KrpcClient.reverseServer(
         .launchIn(coroutineScope)
 
     // Server Construction
-    val route = RkrpcRoute()
+    val route = RkrpcRoute(coroutineScope)
     route.apply { block() }
 
     val config = rpcServerConfig { route.configBuilder(this) }

@@ -10,16 +10,15 @@ import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
-import kotlinx.rpc.RpcServer
-import kotlinx.rpc.krpc.KrpcConfig
+import kotlinx.rpc.krpc.rpcServerConfig
 import kotlinx.rpc.krpc.server.KrpcServer
 import net.lsafer.rkrpc.RkrpcInternalApi
+import net.lsafer.rkrpc.RkrpcRoute
 
 @RkrpcInternalApi
 class FkrpcServiceImpl(
     val coroutineScope: CoroutineScope,
-    val config: KrpcConfig.Server,
-    val registrations: List<(RpcServer) -> Unit>
+    val configBlock: RkrpcRoute.() -> Unit,
 ) : FkrpcService {
     override fun subscribe(key: String): Flow<RkrpcTransportMessage> {
         return flow {
@@ -50,9 +49,13 @@ class FkrpcServiceImpl(
             val transport = RkrpcTransport(tempScope)
 
             // Server Construction
+            val route = RkrpcRoute(tempScope)
+            route.apply { configBlock() }
+
+            val config = rpcServerConfig { route.configBuilder(this) }
             val server = object : KrpcServer(config, transport) {}
 
-            registrations.forEach {
+            route.registrations.forEach {
                 it(server)
             }
 

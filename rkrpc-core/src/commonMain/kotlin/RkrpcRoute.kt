@@ -1,11 +1,12 @@
 package net.lsafer.rkrpc
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.rpc.RpcServer
 import kotlinx.rpc.annotations.Rpc
 import kotlinx.rpc.krpc.KrpcConfigBuilder
 import kotlin.reflect.KClass
 
-class RkrpcRoute {
+class RkrpcRoute(coroutineScope: CoroutineScope) : CoroutineScope by coroutineScope {
     @RkrpcInternalApi
     var configBuilder: KrpcConfigBuilder.Server.() -> Unit = {}
     @RkrpcInternalApi
