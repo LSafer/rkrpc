@@ -1,10 +1,7 @@
 package net.lsafer.rkrpc.test.util
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.job
 import kotlinx.rpc.krpc.KrpcTransport
 import kotlinx.rpc.krpc.KrpcTransportMessage
 import kotlinx.rpc.krpc.client.InitializedKrpcClient
@@ -30,6 +27,7 @@ private class TestTransport(
     }
 }
 
+@OptIn(DelicateCoroutinesApi::class)
 suspend fun createServerClientTest(
     serverBlock: suspend KrpcServer.(CoroutineScope) -> Unit,
     clientBlock: suspend (KrpcClient, CoroutineScope) -> Unit,
@@ -40,8 +38,9 @@ suspend fun createServerClientTest(
     var client: KrpcClient? = null
     val serverJob = SupervisorJob()
     val clientJob = SupervisorJob()
-    val serverScope = CoroutineScope(serverJob)
-    val clientScope = CoroutineScope(clientJob)
+    val handler = CoroutineExceptionHandler { _, _ -> }
+    val serverScope = CoroutineScope(serverJob + handler)
+    val clientScope = CoroutineScope(clientJob + handler)
     try {
         server = object : KrpcServer(
             rpcServerConfig { serialization { json() } },
@@ -53,17 +52,16 @@ suspend fun createServerClientTest(
             TestTransport(outChannel, inChannel, clientScope),
         ) {}
         clientBlock(client, clientScope)
-        serverJob.complete()
+        client.close()
+        client.awaitCompletion()
         clientJob.complete()
+        clientJob.join()
+        server.close()
+        server.awaitCompletion()
     } catch (e: Throwable) {
         serverJob.cancel()
         clientJob.cancel()
         throw e
-    } finally {
-        server?.close()
-        client?.close()
-        serverJob.join()
-        clientJob.join()
     }
 }
 
