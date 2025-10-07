@@ -29,6 +29,5 @@ kotlin {
     }
     sourceSets.commonTest.dependencies {
         implementation(kotlin("test"))
-        implementation(libs.kotlinx.rpc.krpc.ktor.client)
     }
 }

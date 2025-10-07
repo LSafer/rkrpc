@@ -2,7 +2,7 @@
 kotlin = "2.2.0"
 kotlinx-serialization = "1.8.1"
 kotlinx-coroutines = "1.10.2"
-kotlinx-rpc = "0.9.1"
+kotlinx-rpc = "0.10.0"
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
