@@ -10,7 +10,7 @@ import kotlinx.rpc.krpc.KrpcTransportMessage
 import net.lsafer.rkrpc.RkrpcInternalApi
 
 @RkrpcInternalApi
-class RkrpcTransport(coroutineScope: CoroutineScope) : KrpcTransport,
+class RkrpcTransport(val coroutineScope: CoroutineScope) : KrpcTransport,
     CoroutineScope by coroutineScope {
     private val _outChannel = Channel<RkrpcTransportMessage>()
     private val _inChannel = Channel<RkrpcTransportMessage>()
@@ -31,5 +31,17 @@ class RkrpcTransport(coroutineScope: CoroutineScope) : KrpcTransport,
 
     override suspend fun receive(): KrpcTransportMessage {
         return _inChannel.receive().decode()
+    }
+
+    fun flipped(): KrpcTransport = Flipped()
+
+    private inner class Flipped : KrpcTransport, CoroutineScope by coroutineScope {
+        override suspend fun send(message: KrpcTransportMessage) {
+            _inChannel.send(message.encode())
+        }
+
+        override suspend fun receive(): KrpcTransportMessage {
+            return _outChannel.receive().decode()
+        }
     }
 }

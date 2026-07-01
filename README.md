@@ -4,6 +4,8 @@ Reverse kRPC with optional integration with ktor (aka. Client Services).
 
 > This library also includes support for sub clients! [read more](./FRPC.md)
 
+> This library also includes support for mock server and client! [read more](./MRPC.md)
+
 ### Usage
 
 To start lets define some services. One for client-to-server and one for server-to-client:

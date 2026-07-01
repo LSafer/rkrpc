@@ -8,10 +8,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.rpc.krpc.serialization.json.json
 import kotlinx.rpc.registerService
 import kotlinx.rpc.withService
-import net.lsafer.rkrpc.configureSubClient
-import net.lsafer.rkrpc.newSubClient
-import net.lsafer.rkrpc.reverseClient
-import net.lsafer.rkrpc.reverseServer
+import net.lsafer.rkrpc.*
 import net.lsafer.rkrpc.test.util.childScope
 import net.lsafer.rkrpc.test.util.createServerClientTest
 import kotlin.test.Test
@@ -114,5 +111,33 @@ open class MainTest {
                 client3.close()
             },
         )
+    }
+
+    @Test
+    fun `simple local server`() = runTest {
+        val client = krpc(this.childScope()) {
+            rpcConfig { serialization { json() } }
+            registerService<HelloService> {
+                object : HelloService {
+                    override suspend fun getHello(): String {
+                        return "Hello Sxyz"
+                    }
+
+                    override fun flowHello(): Flow<String> {
+                        return flowOf("S", "M", "N")
+                            .map { "Hello $it" }
+                    }
+                }
+            }
+        }
+
+        val helloService = client.withService<HelloService>()
+        val hello = helloService.getHello()
+        val helloList = helloService.flowHello().toList()
+
+        assertEquals("Hello Sxyz", hello)
+        assertEquals(listOf("Hello S", "Hello M", "Hello N"), helloList)
+
+        client.close()
     }
 }
